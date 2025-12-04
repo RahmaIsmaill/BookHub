@@ -25,4 +25,5 @@ public class UserLoginDto {
             message = "Invalid email format")
     private String email;
 
+
 }
