@@ -3,16 +3,13 @@ package com.example.kitabhub.dto;
 import com.example.kitabhub.enums.Category;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import org.hibernate.validator.constraints.URL;
-
+import lombok.*;
+import org.springframework.web.multipart.MultipartFile;
 @Setter
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class BookRequestDto {
 
     @NotBlank(message = "Title is required")
@@ -24,13 +21,14 @@ public class BookRequestDto {
     @NotBlank(message = "Author is required")
     private String author;
 
-    @URL(message = "Cover URL must be valid")
-    private String coverUrl;
+    private MultipartFile coverImage;
 
     @Positive(message = "Price must be positive")
     private double price;
 
-    private Category category;
+    @NotBlank(message = "Category is required")
+    private String category;
 
-    private Long addedById; // id of the admin adding the book
+//    private Long addedById;
 }
+

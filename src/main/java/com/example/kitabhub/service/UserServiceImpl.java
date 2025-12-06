@@ -68,5 +68,15 @@ public class UserServiceImpl implements UserService {
 
     }
 
+    @Override
+    public UserResponseDto getUser(Long userId) {
+        User userEntity = userRepository.findById(userId).orElseThrow(() -> new CustomValidationException(Map.of("Error", "User not found")));
+        return UserResponseDto.builder()
+                .username(userEntity.getUsername())
+                .email(userEntity.getEmail())
+                .role(userEntity.getRole())
+                .build();
+    }
+
 
 }

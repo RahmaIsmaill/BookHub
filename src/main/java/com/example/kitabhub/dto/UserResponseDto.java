@@ -13,6 +13,7 @@ import lombok.*;
 public class UserResponseDto
 {
 
+
     private String username;
     private String email;
     private Role role = Role.USER;

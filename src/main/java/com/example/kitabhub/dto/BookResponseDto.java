@@ -10,12 +10,12 @@ import lombok.*;
 @Builder
 public class BookResponseDto {
 
+    private Long id;
     private String title;
     private String description;
     private String author;
-    private String coverUrl;
+    private String coverImg;
     private Category category;
     private double price;
     private int likesCount;
-
 }

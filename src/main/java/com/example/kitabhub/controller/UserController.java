@@ -28,4 +28,9 @@ public class UserController {
         userService.login(userLoginDto.getEmail(),userLoginDto.getPassword());
         return new  ResponseEntity<>("User Logged in Successfully ",HttpStatus.OK);
     }
+
+    @GetMapping("/user")
+    public ResponseEntity<UserResponseDto> getUser(@RequestParam Long userId) {
+        return ResponseEntity.ok(userService.getUser(userId));
+    }
 }

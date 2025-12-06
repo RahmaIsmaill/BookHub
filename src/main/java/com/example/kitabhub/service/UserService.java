@@ -6,5 +6,6 @@ import com.example.kitabhub.dto.UserResponseDto;
 public interface UserService {
     UserResponseDto saveUser(UserRegisterDto user);
     void login(String email, String password);
+    UserResponseDto getUser(Long userId);
 
 }
