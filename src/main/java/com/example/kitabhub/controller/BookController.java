@@ -134,4 +134,26 @@ public class BookController {
         bookService.deleteBook(id);
         return ResponseEntity.ok(Map.of("message", "Book Deleted Successfully"));
     }
+
+    @GetMapping("books/admin/{adminID}")
+    public ResponseEntity<?> getAllMyBooks(
+            @PathVariable Long adminID,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
+    ) {
+        ResponseEntity<Map<String, Object>> adminCheck = checkAdminResponse(adminID);
+        if (adminCheck != null) return adminCheck;
+
+        return ResponseEntity.ok(bookService.getBooksAddedByAdmin(adminID, page, size));
+    }
+
+    @PostMapping("/books/like")
+    public ResponseEntity<BookResponseDto> likeBook(@RequestParam Long userId, @RequestParam Long bookId) {
+        return ResponseEntity.ok(bookService.likeBook(userId, bookId));
+    }
+
+    @DeleteMapping("/books/like")
+    public ResponseEntity<BookResponseDto> unlikeBook(@RequestParam Long userId, @RequestParam Long bookId) {
+        return ResponseEntity.ok(bookService.unlikeBook(userId, bookId));
+    }
 }

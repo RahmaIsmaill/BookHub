@@ -29,6 +29,6 @@ public class BookRequestDto {
     @NotBlank(message = "Category is required")
     private String category;
 
-//    private Long addedById;
+    private Long addedById;
 }
 

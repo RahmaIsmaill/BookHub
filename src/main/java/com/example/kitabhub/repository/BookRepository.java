@@ -17,4 +17,6 @@ public interface BookRepository extends JpaRepository<Book, Long> {
 
     @Query("select b from Book b  order by b.likesCount desc ")
     Page<Book> getTopLikedBooks( Pageable pageable);
+
+    Page<Book> findByAddedById(Long adminID, Pageable pageable);
 }

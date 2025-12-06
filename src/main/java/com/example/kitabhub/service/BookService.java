@@ -25,6 +25,10 @@ public interface BookService {
 
     Page<BookResponseDto> getTopLikedBooksByCategory(String category, int page, int size);
     Page<BookResponseDto> getTopLikedBooks(int page, int size);
+    Page<BookResponseDto> getBooksAddedByAdmin(Long adminId, int page, int size);
+    BookResponseDto  likeBook(Long userId, Long bookId);
+    BookResponseDto  unlikeBook(Long userId, Long bookId);
+
 
 
 }

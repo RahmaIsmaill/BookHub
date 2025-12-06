@@ -37,12 +37,11 @@ public class Book {
     @Enumerated(EnumType.STRING)
     private Category category;
 
-//    @ManyToOne
-//    @JoinColumn(name = "added_by")
-//    @JsonIgnoreProperties({"password", "email"})
-//    private User addedBy;
+    @ManyToOne
+    @JoinColumn(name = "added_by")
+    @JsonIgnoreProperties({"password", "email"})
+    private User addedBy;
 
-    // بدل byte[]، نخزن URL أو path
     @Column(name = "cover_image")
     private String coverImage;
 }

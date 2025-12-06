@@ -33,7 +33,6 @@ public class UserRegisterDto {
     @NotBlank(message = "Email is required")
     @Email(regexp = "^[A-Za-z0-9._%+-]+@([A-Za-z0-9.-]+)\\.(com|net|org|edu|ac\\.[a-z]{2,3})$",
             message = "Invalid email format")
-    @Column(unique = true )
     private String email;
 
     @NotBlank(message = "Role is required")
