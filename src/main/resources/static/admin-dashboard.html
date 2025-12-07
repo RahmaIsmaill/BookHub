@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>BookHub - Admin Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        body {
+            background: #f5f5f5;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        .navbar {
+            background: linear-gradient(90deg, #3a6351, #1e3d33);
+        }
+        .navbar-brand, .nav-link {
+            color: #fff !important;
+        }
+
+        /* ===== BOOK CARDS ===== */
+        .card {
+            border: none;
+            border-radius: 16px;
+            overflow: hidden;
+            transition: transform .25s ease, box-shadow .25s ease;
+            background: #ffffff;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.15);
+        }
+        .card-img-top {
+            height: 220px;
+            object-fit: cover;
+        }
+        .card-title {
+            font-weight: 700;
+            color: #1e3d33;
+            font-size: 1.1rem;
+        }
+        .card-text.author {
+            color: #555;
+            margin-bottom: 6px;
+        }
+        .card .badge-cat {
+            background: #d4e4dc;
+            color: #1e3d33;
+            font-weight: 600;
+            border-radius: 10px;
+            padding: 4px 8px;
+            font-size: 0.75rem;
+        }
+        .card-price {
+            font-weight: 700;
+            color: #1e3d33;
+            font-size: 1rem;
+            margin: 6px 0;
+        }
+
+        /* Like button style */
+        .btn-like {
+            border-radius: 999px;
+            padding: 6px 12px;
+            background: linear-gradient(90deg,#4caf91,#3a6351);
+            color: #fff;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-weight: 500;
+        }
+        .btn-like.liked {
+            background: linear-gradient(90deg,#e57373,#d32f2f);
+        }
+        .btn-like:active {
+            transform: scale(.95);
+        }
+
+        /* Pagination */
+        #pagination .page-item .page-link {
+            color: #1e3d33;
+        }
+        #pagination .page-item.active .page-link {
+            background-color: #1e3d33;
+            border-color: #1e3d33;
+            color: #fff;
+        }
+        #pagination .page-item .page-link:hover {
+            background-color: #4caf91;
+            color: #fff;
+        }
+
+        .btn-hover {
+            transition: all 0.3s ease;
+            border-radius: 25px;
+            padding: 6px 20px;
+            font-weight: 500;
+        }
+        .btn-hover:hover {
+            background-color: #fff;
+            color: #1e3d33;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .modal-header {
+            background-color: #1e3d33;
+            color: #fff;
+        }
+
+        /* Add Book Button */
+        .btn-add-book {
+            background: linear-gradient(90deg, #4caf91, #3a6351);
+            color: #fff;
+            font-weight: 500;
+            border: none;
+            border-radius: 25px;
+            padding: 8px 16px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-add-book:hover {
+            background: linear-gradient(90deg, #3a6351, #2b4a3a);
+            color: #fff;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+    </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg navbar-dark shadow-sm">
+    <div class="container">
+        <a class="navbar-brand fw-bold" href="/landingPage.html"><i class="bi bi-book-half"></i> BookHub</a>
+        <ul class="navbar-nav ms-3">
+            <li class="nav-item"><a class="nav-link active" href="/books.html">Explore</a></li>
+        </ul>
+        <div class="ms-auto d-flex align-items-center">
+            <ul class="navbar-nav me-3">
+                <li class="nav-item me-2">
+                    <a class="nav-link" href="/profile.html"><i class="bi bi-person-circle"></i> Profile</a>
+                </li>
+            </ul>
+            <button class="btn btn-outline-light btn-hover" id="logoutBtn">
+                <i class="bi bi-box-arrow-right"></i> Logout
+            </button>
+        </div>
+    </div>
+</nav>
+
+<div class="container mt-4">
+    <div class="row mb-3">
+        <div class="col-md-3 mb-2">
+            <button class="btn btn-add-book w-100" data-bs-toggle="modal" data-bs-target="#addBookModal">
+                <i class="bi bi-plus-circle me-2"></i> Add Book
+            </button>
+        </div>
+    </div>
+
+
+    <!-- Add/Edit Book Modal -->
+    <div class="modal fade" id="addBookModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <form id="bookForm">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalTitle">Add Book</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body row g-3">
+                        <input type="hidden" id="bookId">
+                        <div class="col-md-6">
+                            <input type="text" id="title" class="form-control" placeholder="Title" required>
+                        </div>
+                        <div class="col-md-6">
+                            <input type="text" id="author" class="form-control" placeholder="Author" required>
+                        </div>
+                        <div class="col-md-6">
+                            <input type="number" id="price" class="form-control" placeholder="Price" required>
+                        </div>
+                        <div class="col-md-6">
+                            <select id="category" class="form-control" required>
+                                <option value="">Select Category</option>
+                                <option>SCIENCE</option>
+                                <option>HISTORY</option>
+                                <option>NOVEL</option>
+                                <option>TECHNOLOGY</option>
+                                <option>ART</option>
+                                <option>BUSINESS</option>
+                            </select>
+                        </div>
+                        <div class="col-12">
+                            <textarea id="description" class="form-control" placeholder="Description"></textarea>
+                        </div>
+                        <div class="col-12">
+                            <input type="file" id="coverImage" class="form-control">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success">Save Book</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- BOOKS CONTAINER -->
+    <div class="row" id="booksContainer"></div>
+
+    <!-- PAGINATION -->
+    <nav>
+        <ul class="pagination justify-content-center" id="pagination"></ul>
+    </nav>
+</div>
+<script>
+    const user = JSON.parse(localStorage.getItem("user"));
+
+    // ===== Check if admin =====
+    if(!user || !user.id || user.role.toUpperCase() !== "ADMIN"){
+        alert("You are not authorized!");
+        window.location.href="/login.html";
+    }
+
+    const booksContainer = document.getElementById("booksContainer");
+    const bookForm = document.getElementById("bookForm");
+    const modalTitle = document.getElementById("modalTitle");
+    let editingBookId = null;
+    let currentPage = 0, totalPages = 1;
+
+    // ===== Fetch Books Added by Admin =====
+    async function fetchBooks(page = 0){
+        try{
+            const res = await fetch(`http://localhost:8081/bookApi/v1/books/admin/${user.id}?page=${page}&size=6`);
+            if(!res.ok) throw new Error(`HTTP error! Status: ${res.status}`);
+            const data = await res.json();
+            booksContainer.innerHTML = "";
+
+            data.content.forEach(book => {
+                const likedClass = book.liked ? 'liked' : '';
+                booksContainer.innerHTML += `
+            <div class="col-md-3 mb-4">
+                <div class="card">
+                    <img src="${book.coverImg || 'https://via.placeholder.com/260x260'}" class="card-img-top" alt="${book.title}">
+                    <div class="card-body">
+                        <h5 class="card-title">${book.title}</h5>
+                        <p class="card-text author">By ${book.author}</p>
+                        <span class="badge-cat">${book.category}</span>
+                        <div class="card-price">$${book.price}</div>
+                        <button class="btn-like ${likedClass}" data-id="${book.id}" data-liked="${book.liked ? 'true' : 'false'}">
+                            <i class="bi bi-heart-fill"></i> <span class="like-count">${book.likesCount}</span>
+                        </button>
+                        <div class="mt-2">
+                            <button class="btn btn-sm btn-primary me-1" onclick="editBook(${book.id})">Edit</button>
+                            <button class="btn btn-sm btn-danger" onclick="deleteBook(${book.id})">Delete</button>
+                        </div>
+                    </div>
+                </div>
+            </div>`;
+            });
+
+            currentPage = data.number;
+            totalPages = data.totalPages;
+            renderPagination();
+        }catch(err){
+            console.error(err);
+            booksContainer.innerHTML = `<h4 class="text-center text-danger">Error loading books: ${err.message}</h4>`;
+        }
+    }
+
+    // ===== Edit Book =====
+    function editBook(id){
+        editingBookId = id;
+        fetch(`http://localhost:8081/bookApi/v1/book/${id}?userID=${user.id}`)
+            .then(res => res.json())
+            .then(book => {
+                modalTitle.innerText = "Edit Book";
+                document.getElementById("bookId").value = book.id;
+                document.getElementById("title").value = book.title;
+                document.getElementById("author").value = book.author;
+                document.getElementById("price").value = book.price;
+                document.getElementById("category").value = book.category;
+                document.getElementById("description").value = book.description;
+                new bootstrap.Modal(document.getElementById('addBookModal')).show();
+            })
+            .catch(err => console.error(err));
+    }
+
+    // ===== Delete Book =====
+    async function deleteBook(id){
+        if(confirm("Are you sure you want to delete this book?")){
+            try{
+                const res = await fetch(`http://localhost:8081/bookApi/v1/book/${id}?userID=${user.id}`, { method: "DELETE" });
+                if(!res.ok) throw new Error(`HTTP error! Status: ${res.status}`);
+                fetchBooks(currentPage);
+            }catch(err){
+                console.error(err);
+                alert("Error deleting book");
+            }
+        }
+    }
+
+    // ===== Add/Edit Book Form =====
+    bookForm.addEventListener("submit", async e => {
+        e.preventDefault();
+        const formData = new FormData();
+        formData.append("title", document.getElementById("title").value);
+        formData.append("author", document.getElementById("author").value);
+        formData.append("price", document.getElementById("price").value);
+        formData.append("category", document.getElementById("category").value);
+        formData.append("description", document.getElementById("description").value);
+        formData.append("addedById", user.id); // مهم جداً لإضافة الكتاب
+        const file = document.getElementById("coverImage").files[0];
+        if(file) formData.append("coverImage", file);
+
+        const url = editingBookId
+            ? `http://localhost:8081/bookApi/v1/book/${editingBookId}?userID=${user.id}`
+            : `http://localhost:8081/bookApi/v1/book?userID=${user.id}`;
+        const method = editingBookId ? "PUT" : "POST";
+
+        try{
+            const res = await fetch(url, { method, body: formData });
+            if(!res.ok) throw new Error(`HTTP error! Status: ${res.status}`);
+            bootstrap.Modal.getInstance(document.getElementById('addBookModal')).hide();
+            editingBookId = null;
+            modalTitle.innerText = "Add Book";
+            bookForm.reset();
+            fetchBooks(currentPage);
+        }catch(err){
+            console.error(err);
+            alert("Error saving book");
+        }
+    });
+
+    // ===== Pagination =====
+    function renderPagination(){
+        const pagination = document.getElementById("pagination");
+        pagination.innerHTML = "";
+        const createBtn = (text, page, disabled=false, active=false) => {
+            const li = document.createElement("li");
+            li.className = `page-item ${disabled ? 'disabled' : ''} ${active ? 'active' : ''}`;
+            const a = document.createElement("a");
+            a.className = "page-link";
+            a.href = "#";
+            a.textContent = text;
+            a.addEventListener("click", e => { e.preventDefault(); if(!disabled) fetchBooks(page); });
+            li.appendChild(a);
+            return li;
+        }
+        pagination.appendChild(createBtn("<", currentPage - 1, currentPage === 0));
+        for(let i = 0; i < totalPages; i++){
+            pagination.appendChild(createBtn(i + 1, i, false, currentPage === i));
+        }
+        pagination.appendChild(createBtn(">", currentPage + 1, currentPage === totalPages - 1));
+    }
+
+    // ===== Logout =====
+    document.getElementById("logoutBtn").addEventListener("click", ()=> {
+        localStorage.removeItem("user");
+        window.location.href="/login.html";
+    });
+
+    // ===== Like Button Toggle =====
+    document.addEventListener("click", async e => {
+        const btn = e.target.closest(".btn-like");
+        if(!btn) return;
+
+        const bookId = btn.dataset.id;
+        let isLiked = btn.dataset.liked === 'true';
+        let likeCount = parseInt(btn.querySelector(".like-count").textContent);
+        likeCount = isLiked ? likeCount - 1 : likeCount + 1;
+        btn.querySelector(".like-count").textContent = likeCount;
+        isLiked = !isLiked;
+        btn.dataset.liked = isLiked;
+        btn.classList.toggle("liked", isLiked);
+
+        try{
+            const method = isLiked ? "POST" : "DELETE";
+            const res = await fetch(`http://localhost:8081/bookApi/v1/books/like?userId=${user.id}&bookId=${bookId}`, { method });
+            const data = await res.json();
+            btn.dataset.liked = data.liked ? 'true' : 'false';
+            btn.querySelector(".like-count").textContent = data.likesCount;
+            btn.classList.toggle("liked", data.liked);
+        }catch(err){
+            console.error(err);
+        }
+    });
+
+    // ===== Initialize =====
+    document.addEventListener("DOMContentLoaded", ()=> fetchBooks());
+</script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

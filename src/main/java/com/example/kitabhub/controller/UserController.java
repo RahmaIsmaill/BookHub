@@ -33,4 +33,8 @@ public class UserController {
     public ResponseEntity<UserResponseDto> getUser(@RequestParam Long userId) {
         return ResponseEntity.ok(userService.getUser(userId));
     }
+    @GetMapping("/user/email")
+    public ResponseEntity<UserResponseDto> getUserbyemail(@RequestParam String email) {
+        return ResponseEntity.ok(userService.getUserByEmail(email));
+    }
 }

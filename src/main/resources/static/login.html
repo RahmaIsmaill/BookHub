@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login - BookHub</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+
+    <style>
+        body {
+            background: #f1f6f3;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        /* ===== LOGIN CARD ===== */
+        .login-card {
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 30px 25px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .login-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+        }
+
+        /* ===== HEADINGS ===== */
+        .login-card h2 {
+            color: #17634a;
+        }
+        .login-card p {
+            color: #6c757d;
+        }
+
+        /* ===== INPUTS ===== */
+        .input-group-text {
+            background: #f1f5f9;
+            border-radius: 0.375rem 0 0 0.375rem;
+            color: #17634a;
+            font-size: 1.1rem;
+        }
+        .form-control {
+            border-radius: 0 0.375rem 0.375rem 0;
+            border-color: #ced4da;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        .form-control:focus {
+            border-color: #17634a;
+            box-shadow: 0 0 0 0.2rem rgba(23, 99, 74, 0.25);
+        }
+
+        /* ===== BUTTON ===== */
+        .btn-primary {
+            background: #17634a;
+            border: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        .btn-primary:hover {
+            background: #0d3b2e;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+        }
+
+        /* ===== ERROR TEXT ===== */
+        .error-text {
+            color: #ff4d4f;
+            font-size: 0.85rem;
+            margin-top: 2px;
+            display: none;
+        }
+        .input-group input.is-invalid {
+            border-color: #ff4d4f;
+        }
+
+        /* ===== LINKS ===== */
+        .login-card a {
+            color: #17634a;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        .login-card a:hover {
+            color: #0d3b2e;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 576px) {
+            .login-card {
+                padding: 25px 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container vh-100 d-flex justify-content-center align-items-center">
+    <div class="login-card w-100" style="max-width: 400px;">
+        <h2 class="text-center mb-2 fw-bold">Welcome Back</h2>
+        <p class="text-center mb-4">Login to your BookHub account</p>
+        <form id="loginForm">
+            <div class="mb-3">
+                <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-envelope-fill"></i></span>
+                    <input type="email" id="email" class="form-control" placeholder="Email" required>
+                </div>
+                <div id="error-email" class="error-text"><i class="bi bi-exclamation-circle-fill"></i> <span></span></div>
+            </div>
+
+            <div class="mb-3">
+                <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-lock-fill"></i></span>
+                    <input type="password" id="password" class="form-control" placeholder="Password" required>
+                </div>
+                <div id="error-password" class="error-text"><i class="bi bi-exclamation-circle-fill"></i> <span></span></div>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100 fw-bold">Login</button>
+
+            <p class="text-center mt-3 text-muted">
+                Don't have an account? <a href="/register.html">Register</a>
+            </p>
+        </form>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/js/login.js"></script>
+</body>
+</html>

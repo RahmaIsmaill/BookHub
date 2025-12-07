@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Top Liked - BookHub</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<!-- ===== NAVBAR ===== -->
+<nav class="navbar navbar-expand-lg navbar-dark shadow-sm">
+    <div class="container">
+        <a class="navbar-brand fw-bold" href="/books.html"><i class="bi bi-book-half"></i> BookHub</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item"><a class="nav-link" href="/books.html">Explore</a></li>
+                <li class="nav-item"><a class="nav-link active" href="#">Top Liked</a></li>
+            </ul>
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item me-2">
+                    <a class="nav-link" href="/profile.html"><i class="bi bi-person-circle"></i> Profile</a>
+                </li>
+                <li class="nav-item">
+                    <button class="btn btn-light" id="logoutBtn"><i class="bi bi-box-arrow-right"></i> Logout</button>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container mt-4">
+    <!-- ===== FILTER ===== -->
+    <div class="row mb-3">
+        <div class="col-md-3">
+            <select id="categoryFilter" class="form-select">
+                <option value="">All Categories</option>
+                <option value="SCIENCE">SCIENCE</option>
+                <option value="HISTORY">HISTORY</option>
+                <option value="NOVEL">NOVEL</option>
+                <option value="TECHNOLOGY">TECHNOLOGY</option>
+                <option value="ART">ART</option>
+                <option value="BUSINESS">BUSINESS</option>
+            </select>
+        </div>
+        <div class="col-md-2">
+            <button class="btn btn-primary w-100" id="filterBtn">Filter</button>
+        </div>
+    </div>
+
+    <div id="alertBox"></div>
+    <div class="row" id="booksContainer"></div>
+
+    <!-- ===== PAGINATION ===== -->
+    <nav>
+        <ul class="pagination justify-content-center" id="pagination"></ul>
+    </nav>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    const userId = 1;
+    let currentPage = 0;
+    let totalPages = 1;
+    let currentCategory = "";
+
+    // ===== Load Top Liked =====
+    function loadTopLiked(page = 0) {
+        let url = `http://localhost:8081/bookApi/v1/books/top-liked?page=${page}&size=4`;
+        if (currentCategory) {
+            url = `http://localhost:8081/bookApi/v1/books/top-liked/category?category=${currentCategory}&page=${page}&size=4`;
+        }
+
+        fetch(url)
+            .then(res => res.json())
+            .then(data => {
+                renderBooks(data.content);
+                currentPage = data.number;
+                totalPages = data.totalPages;
+                renderPagination();
+            })
+            .catch(err => {
+                console.error(err);
+                document.getElementById("booksContainer").innerHTML =
+                    `<h3 class="text-white text-center">⚠ Error loading books</h3>`;
+            });
+    }
+
+    // ===== Render Books =====
+    function renderBooks(books) {
+        const container = document.getElementById("booksContainer");
+        container.innerHTML = "";
+        if (!books || books.length === 0) {
+            container.innerHTML = `<h3 class="text-white text-center">No books found</h3>`;
+            return;
+        }
+
+        books.forEach(book => {
+            const imageSrc = book.coverImg ? `data:image/jpeg;base64,${book.coverImg}` : "/images/default-book.png";
+            const card = document.createElement("div");
+            card.className = "col-md-3 mb-4";
+            card.innerHTML = `
+            <div class="card h-100">
+                <img src="${imageSrc}" class="card-img-top" alt="Book Cover">
+                <div class="card-body">
+                    <h5 class="card-title">${book.title}</h5>
+                    <p class="card-text author">By ${book.author}</p>
+                    <span class="badge badge-cat">${book.category}</span>
+                    <p class="card-price mt-2 mb-2">$${book.price}</p>
+                    <button class="btn-like ${book.liked ? 'liked' : ''}"
+                        data-id="${book.id}"
+                        data-liked="${book.liked ? 'true' : 'false'}">
+                        <i class="bi bi-heart-fill"></i> <span class="like-count">${book.likesCount}</span>
+                    </button>
+                </div>
+            </div>
+        `;
+            container.appendChild(card);
+        });
+    }
+
+    // ===== Pagination =====
+    function renderPagination() {
+        const pagination = document.getElementById("pagination");
+        pagination.innerHTML = "";
+
+        const createPageBtn = (text, page, disabled = false, active = false) => {
+            const li = document.createElement("li");
+            li.className = `page-item ${disabled ? "disabled" : ""} ${active ? "active" : ""}`;
+            const a = document.createElement("a");
+            a.className = "page-link";
+            a.href = "#";
+            a.textContent = text;
+            a.addEventListener("click", e => {
+                e.preventDefault();
+                if (!disabled) loadTopLiked(page);
+            });
+            li.appendChild(a);
+            return li;
+        };
+
+        pagination.appendChild(createPageBtn("<", currentPage - 1, currentPage === 0));
+        for (let i = 0; i < totalPages; i++) {
+            pagination.appendChild(createPageBtn(i + 1, i, false, currentPage === i));
+        }
+        pagination.appendChild(createPageBtn(">", currentPage + 1, currentPage === totalPages - 1));
+    }
+
+    // ===== Like Toggle =====
+    document.addEventListener("click", e => {
+        const btn = e.target.closest(".btn-like");
+        if (!btn) return;
+
+        const bookId = btn.dataset.id;
+        const likeCountSpan = btn.querySelector(".like-count");
+        let isLiked = btn.dataset.liked === "true";
+
+        let count = parseInt(likeCountSpan.textContent);
+        count = isLiked ? count - 1 : count + 1;
+        likeCountSpan.textContent = count;
+
+        isLiked = !isLiked;
+        btn.dataset.liked = isLiked.toString();
+        btn.classList.toggle("liked", isLiked);
+
+        const method = isLiked ? "POST" : "DELETE";
+        fetch(`http://localhost:8081/bookApi/v1/books/like?userId=${userId}&bookId=${bookId}`, { method })
+            .then(res => res.json())
+            .then(data => {
+                likeCountSpan.textContent = data.likesCount;
+                btn.dataset.liked = data.liked ? "true" : "false";
+                btn.classList.toggle("liked", data.liked);
+            })
+            .catch(err => console.error(err));
+    });
+
+    // ===== Filter Button =====
+    document.getElementById("filterBtn").addEventListener("click", () => {
+        currentCategory = document.getElementById("categoryFilter").value;
+        loadTopLiked(0);
+    });
+
+    // ===== Initial Load =====
+    document.addEventListener("DOMContentLoaded", () => loadTopLiked());
+</script>
+
+</body>
+</html>

@@ -12,7 +12,7 @@ import lombok.*;
 @Builder
 public class UserResponseDto
 {
-
+    private Long id;
     private String username;
     private String email;
     private Role role = Role.USER;

@@ -9,7 +9,7 @@ import com.example.kitabhub.entity.User;
 import com.example.kitabhub.enums.Category;
 import com.example.kitabhub.exception.CustomValidationException;
 import com.example.kitabhub.repository.BookRepository;
-import com.example.kitabhub.repository.LikeRepsitory;
+import com.example.kitabhub.repository.LikeRepository;
 import com.example.kitabhub.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -30,7 +30,7 @@ public class BookServiceImpl implements BookService {
 
     private final BookRepository bookRepository;
     private final UserRepository userRepository;
-    private final LikeRepsitory likeRepsitory;
+    private final LikeRepository likeRepository;
 
 
     private BookResponseDto convertToDto(Book book) {
@@ -220,7 +220,7 @@ public class BookServiceImpl implements BookService {
         Book book = bookRepository.findById(bookId)
                 .orElseThrow(() -> new CustomValidationException(Map.of("Error", "Book not found")));
 
-        if (likeRepsitory.existsByUserIdAndBookId(userId, bookId)) {
+        if (likeRepository.existsByUserIdAndBookId(userId, bookId)) {
             throw new CustomValidationException(Map.of("Error", "Book already liked"));
         }
 
@@ -229,7 +229,7 @@ public class BookServiceImpl implements BookService {
                 .user(user)
                 .build();
 
-        likeRepsitory.save(like);
+        likeRepository.save(like);
 
         book.setLikesCount(book.getLikesCount() + 1);
         bookRepository.save(book);
@@ -252,7 +252,7 @@ public class BookServiceImpl implements BookService {
             throw new CustomValidationException(Map.of("Error", "You Can't Unlike this "));
         }
 
-//        likeRepsitory.deleteByUserIdAndBookId(userId, bookId);
+//        likeRepository.deleteByUserIdAndBookId(userId, bookId);
 
         book.setLikesCount(Math.max(book.getLikesCount() - 1, 0));
         bookRepository.save(book);

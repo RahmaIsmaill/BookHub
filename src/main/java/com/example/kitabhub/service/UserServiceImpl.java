@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -72,6 +73,18 @@ public class UserServiceImpl implements UserService {
     public UserResponseDto getUser(Long userId) {
         User userEntity = userRepository.findById(userId).orElseThrow(() -> new CustomValidationException(Map.of("Error", "User not found")));
         return UserResponseDto.builder()
+                .id(userEntity.getId())
+                .username(userEntity.getUsername())
+                .email(userEntity.getEmail())
+                .role(userEntity.getRole())
+                .build();
+    }
+
+    @Override
+    public UserResponseDto getUserByEmail(String email) {
+        User userEntity = userRepository.findByEmail(email).orElseThrow(() -> new CustomValidationException(Map.of("Error", "User not found")));
+        return UserResponseDto.builder()
+                .id(userEntity.getId())
                 .username(userEntity.getUsername())
                 .email(userEntity.getEmail())
                 .role(userEntity.getRole())

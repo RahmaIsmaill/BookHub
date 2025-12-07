@@ -18,4 +18,5 @@ public class BookResponseDto {
     private Category category;
     private double price;
     private int likesCount;
+    private boolean liked;
 }
