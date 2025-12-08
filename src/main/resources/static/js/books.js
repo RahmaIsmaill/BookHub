@@ -3,7 +3,7 @@ const user = JSON.parse(localStorage.getItem("user"));
 if (!user) {
     window.location.href = "/login.html";
 }
-const userId = user.id; // استخدم الـ ID مباشرة
+const userId = user.id;
 
 let currentPage = 0;
 let totalPages = 1;
@@ -65,7 +65,7 @@ function renderBooks(books) {
     container.innerHTML = "";
 
     if (!books || books.length === 0) {
-        container.innerHTML = `<h3 class="text-white text-center">No books found</h3>`;
+        container.innerHTML = `<h3 class="text-black text-center">No books found</h3>`;
         return;
     }
 

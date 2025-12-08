@@ -1,7 +1,6 @@
 package com.example.kitabhub.entity;
 
 
-//import com.example.kitabhub.customannotation.PasswordMatches;
 import com.example.kitabhub.enums.*;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -36,5 +35,5 @@ public class User {
     private String email;
 
     @Enumerated(EnumType.STRING)
-    private Role role = Role.USER; //set default to user
+    private Role role = Role.USER;
 }

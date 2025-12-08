@@ -23,8 +23,6 @@ public class BookController {
     private final UserService userService;
 
 
-    // ===================== Public Endpoints =====================
-
     @GetMapping("/books")
     public ResponseEntity<Page<BookResponseDto>> getAllBooks(
             @RequestParam(defaultValue = "0") int page,
@@ -75,7 +73,6 @@ public class BookController {
         return ResponseEntity.ok(bookService.getTopLikedBooks(page, size));
     }
 
-    // ===================== Admin Endpoints =====================
 
     private ResponseEntity<Map<String, Object>> checkAdminResponse(Long userId) {
         try {

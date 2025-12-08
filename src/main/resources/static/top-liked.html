@@ -16,8 +16,8 @@
             margin-top: 10px;
         }
         .like-icon {
-            font-size: 28px; /* حجم أكبر */
-            color: #208e20; /* أخضر فاتح */
+            font-size: 28px;
+            color: #208e20;
         }
         .like-wrapper:hover .like-icon {
             transform: scale(1.3);
@@ -25,17 +25,19 @@
 
         /* ===== FIXED CARD & IMAGE ===== */
         .card {
-            height: 450px; /* ارتفاع ثابت للكارد */
+            height: 450px;
         }
         .card-img-top {
-            height: 200px; /* ارتفاع ثابت للصورة */
-            object-fit: cover; /* يحافظ على نسبة الصورة ويقص الزوائد */
+            height: 200px;
             width: 100%;
+            object-fit: contain;
+            background-color: #f8f9fa;
         }
+
         .card-body {
             display: flex;
             flex-direction: column;
-            justify-content: space-between; /* يوزع النصوص داخل الكارد */
+            justify-content: space-between;
         }
         .badge-cat {
             display: inline-block;
@@ -132,7 +134,7 @@
         container.innerHTML = "";
 
         if (!books || books.length === 0) {
-            container.innerHTML = `<h3 class="text-white text-center">No books found</h3>`;
+            container.innerHTML = `<h3 class="text-center" style="color: #245041">No books found</h3>`;
             return;
         }
 
