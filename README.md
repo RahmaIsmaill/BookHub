@@ -115,3 +115,8 @@ erDiagram
 ```
 ---
 
+## Frontend Demo
+- [Open the UI](http://localhost:8080/index.html)
+
+## API Documentation
+- [Swagger UI](http://localhost:8081/swagger-ui/index.html)
