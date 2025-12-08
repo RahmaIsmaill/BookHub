@@ -252,7 +252,7 @@ public class BookServiceImpl implements BookService {
             throw new CustomValidationException(Map.of("Error", "You Can't Unlike this "));
         }
 
-//        likeRepository.deleteByUserIdAndBookId(userId, bookId);
+        likeRepository.deleteByUserIdAndBookId(userId, bookId);
 
         book.setLikesCount(Math.max(book.getLikesCount() - 1, 0));
         bookRepository.save(book);

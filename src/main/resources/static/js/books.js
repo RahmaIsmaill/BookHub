@@ -3,20 +3,26 @@ const user = JSON.parse(localStorage.getItem("user"));
 if (!user) {
     window.location.href = "/login.html";
 }
-const userEmail = user.email;
+const userId = user.id; // استخدم الـ ID مباشرة
 
 let currentPage = 0;
 let totalPages = 1;
 let currentCategory = "";
 let currentTitle = "";
 
+// ===== Logout Handler =====
+document.getElementById("logoutBtn").addEventListener("click", () => {
+    localStorage.removeItem("user");
+    window.location.href = "/login.html";
+});
+
 // ===== Load Books =====
 async function loadBooks(page = 0) {
     try {
-        let url = `http://localhost:8081/bookApi/v1/books?page=${page}&size=4&email=${encodeURIComponent(userEmail)}`;
+        let url = `http://localhost:8081/bookApi/v1/books?page=${page}&size=4`;
 
         if (currentTitle && currentCategory) {
-            url = `http://localhost:8081/bookApi/v1/books/search/title?title=${encodeURIComponent(currentTitle)}&page=${page}&size=4&email=${encodeURIComponent(userEmail)}`;
+            url = `http://localhost:8081/bookApi/v1/books/search/title?title=${encodeURIComponent(currentTitle)}&page=${page}&size=4`;
             const res = await fetch(url);
             const data = await res.json();
             const books = data.content.filter(b => b.category === currentCategory);
@@ -24,14 +30,14 @@ async function loadBooks(page = 0) {
             currentPage = data.number;
             totalPages = data.totalPages;
         } else if (currentTitle) {
-            url = `http://localhost:8081/bookApi/v1/books/search/title?title=${encodeURIComponent(currentTitle)}&page=${page}&size=4&email=${encodeURIComponent(userEmail)}`;
+            url = `http://localhost:8081/bookApi/v1/books/search/title?title=${encodeURIComponent(currentTitle)}&page=${page}&size=4`;
             const res = await fetch(url);
             const data = await res.json();
             renderBooks(data.content);
             currentPage = data.number;
             totalPages = data.totalPages;
         } else if (currentCategory) {
-            url = `http://localhost:8081/bookApi/v1/books/search/category?category=${encodeURIComponent(currentCategory)}&page=${page}&size=4&email=${encodeURIComponent(userEmail)}`;
+            url = `http://localhost:8081/bookApi/v1/books/search/category?category=${encodeURIComponent(currentCategory)}&page=${page}&size=4`;
             const res = await fetch(url);
             const data = await res.json();
             renderBooks(data.content);
@@ -64,14 +70,7 @@ function renderBooks(books) {
     }
 
     books.forEach(book => {
-        let imageSrc = "/images/default-book.png"; // default
-        if (book.coverImg) {
-            if (book.coverImg.startsWith("data:")) {
-                imageSrc = book.coverImg; // already base64
-            } else {
-                imageSrc = book.coverImg; // url path
-            }
-        }
+        let imageSrc = book.coverImg ? book.coverImg : "/images/default-book.png";
 
         const card = document.createElement("div");
         card.className = "col-md-3 mb-4";
@@ -83,10 +82,10 @@ function renderBooks(books) {
                     <p class="card-text author">By ${book.author}</p>
                     <span class="badge badge-cat">${book.category}</span>
                     <div class="card-price mt-2 mb-2">$${book.price}</div>
-                    <button class="btn-like ${book.liked ? 'liked' : ''}" 
-                        data-id="${book.id}" 
-                        data-liked="${book.liked ? 'true' : 'false'}">
-                        <i class="bi bi-heart-fill"></i> <span class="like-count">${book.likesCount}</span>
+
+                    <!-- LIKE BUTTON (DB updated only, toggle effect) -->
+                    <button class="btn-like ${book.liked ? 'liked' : ''}" data-id="${book.id}" data-liked="${book.liked}">
+                        <i class="bi bi-heart-fill like-icon" style="color: ${book.liked ? '#28a745' : '#ccc'}; font-size: 1.5rem;"></i>
                     </button>
                 </div>
             </div>
@@ -107,7 +106,7 @@ function renderPagination() {
         a.className = "page-link";
         a.href = "#";
         a.textContent = text;
-        a.addEventListener("click", (e) => {
+        a.addEventListener("click", e => {
             e.preventDefault();
             if (!disabled) loadBooks(page);
         });
@@ -115,13 +114,10 @@ function renderPagination() {
         return li;
     };
 
-    // Prev
     pagination.appendChild(createPageBtn("<", currentPage - 1, currentPage === 0));
-    // Pages
     for (let i = 0; i < totalPages; i++) {
         pagination.appendChild(createPageBtn(i + 1, i, false, currentPage === i));
     }
-    // Next
     pagination.appendChild(createPageBtn(">", currentPage + 1, currentPage === totalPages - 1));
 }
 
@@ -132,32 +128,27 @@ document.getElementById("searchBtn").addEventListener("click", () => {
     loadBooks(0);
 });
 
-// ===== Like Toggle =====
+// ===== Like Toggle (DB only) =====
 document.addEventListener("click", async (e) => {
     const btn = e.target.closest(".btn-like");
     if (!btn) return;
 
     const bookId = btn.dataset.id;
-    const likeCountSpan = btn.querySelector(".like-count");
     let isLiked = btn.dataset.liked === "true";
 
-    let count = parseInt(likeCountSpan.textContent);
-    count = isLiked ? count - 1 : count + 1;
-    likeCountSpan.textContent = count;
+    // Toggle UI locally (green ↔ gray)
+    const icon = btn.querySelector(".like-icon");
+    icon.style.color = isLiked ? '#ccc' : '#28a745';
+    btn.dataset.liked = (!isLiked).toString();
 
-    isLiked = !isLiked;
-    btn.dataset.liked = isLiked.toString();
-    btn.classList.toggle("liked", isLiked);
-
-    // backend
     try {
-        const method = isLiked ? "POST" : "DELETE";
-        const res = await fetch(`http://localhost:8081/bookApi/v1/books/like?bookId=${bookId}&email=${encodeURIComponent(userEmail)}`, { method });
-        const data = await res.json();
-
-        likeCountSpan.textContent = data.likesCount;
-        btn.dataset.liked = data.liked ? "true" : "false";
-        btn.classList.toggle("liked", data.liked);
+        if (!isLiked) {
+            // LIKE in DB
+            await fetch(`http://localhost:8081/bookApi/v1/books/like?userId=${userId}&bookId=${bookId}`, { method: "POST" });
+        } else {
+            // UNLIKE in DB
+            await fetch(`http://localhost:8081/bookApi/v1/books/like?userId=${userId}&bookId=${bookId}`, { method: "DELETE" });
+        }
     } catch (err) {
         console.error(err);
     }

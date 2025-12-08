@@ -25,27 +25,26 @@ body {
     background-color: #e0a800;
 }
 
-/* ===== Hero Section ===== */
-.hero-section {
-    padding: 120px 20px;
-    text-align: center;
-    background: linear-gradient(135deg, #123a37, #33715c, #4c775e);
-    color: white;
-}
-
 /* ===== Search & Filter ===== */
 #searchInput, #categoryFilter {
     border-radius: 8px;
     border: 1px solid #ced4da;
 }
-#searchBtn {
-    background: linear-gradient(135deg, #123a37, #33715c, #4c775e);
+#searchBtn, #filterBtn {
+    background-color: #245041;
     color: #fff;
-    border-radius: 8px;
     font-weight: 500;
+    border-radius: 8px;
+    border: none;
+    transition: background-color 0.2s, transform 0.2s;
 }
-#searchBtn:hover {
-    background: linear-gradient(135deg, #123a37, #33715c, #4c775e);
+#searchBtn:hover, #filterBtn:hover {
+    background-color: #4c775e;
+    transform: translateY(-2px);
+}
+#searchBtn:active, #filterBtn:active {
+    background-color: #123a37;
+    transform: translateY(0);
 }
 
 /* ===== Book Cards ===== */
@@ -55,6 +54,11 @@ body {
     box-shadow: 0 4px 12px rgba(0,0,0,0.08);
     transition: transform 0.25s ease, box-shadow 0.25s ease;
     background-color: #fff;
+}
+.card-img-top {
+    height: 200px; /* ارتفاع ثابت للصورة */
+    object-fit: cover; /* يحافظ على نسبة الصورة ويقص الزوائد */
+    width: 100%;
 }
 .card:hover {
     transform: translateY(-5px);
@@ -116,44 +120,25 @@ body {
 .pagination .page-item.disabled .page-link {
     color: #6c757d;
 }
+.btn-like {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 22px;
+    transition: 0.2s;
+    color: #777; /* gray default */
+}
 
-/* ===== Buttons inside cards ===== */
-.card .btn {
-    font-size: 0.8rem;
+.btn-like.liked {
+    color: #e63946 !important; /* red when liked */
 }
-.card .btn-primary {
-    background-color: #0d6efd;
-    border-color: #0d6efd;
-}
-.card .btn-primary:hover {
-    background: linear-gradient(135deg, #123a37, #33715c, #4c775e);
-}
-.card .btn-danger {
-    background-color: #dc3545;
-    border-color: #dc3545;
-}
-.card .btn-danger:hover {
-    background-color: #c82333;
+
+.btn-like:hover {
+    transform: scale(1.15);
 }
 
 /* ===== Responsive ===== */
 @media (max-width: 768px) {
     .card-title { font-size: 1rem; }
     .card-price { font-size: 0.9rem; }
-}
-#searchBtn, #filterBtn {
-    background-color: #245041;
-    color: #fff;
-    font-weight: 500;
-    border-radius: 8px;
-    border: none;
-    transition: background-color 0.2s, transform 0.2s;
-}
-#searchBtn:hover, #filterBtn:hover {
-    background-color: #4c775e;
-    transform: translateY(-2px);
-}
-#searchBtn:active, #filterBtn:active {
-    background-color: #123a37;
-    transform: translateY(0);
 }

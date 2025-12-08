@@ -6,6 +6,47 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
     <link rel="stylesheet" href="/css/style.css">
+    <style>
+        /* ===== LIKE STYLE ===== */
+        .like-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            margin-top: 10px;
+        }
+        .like-icon {
+            font-size: 28px; /* حجم أكبر */
+            color: #208e20; /* أخضر فاتح */
+        }
+        .like-wrapper:hover .like-icon {
+            transform: scale(1.3);
+        }
+
+        /* ===== FIXED CARD & IMAGE ===== */
+        .card {
+            height: 450px; /* ارتفاع ثابت للكارد */
+        }
+        .card-img-top {
+            height: 200px; /* ارتفاع ثابت للصورة */
+            object-fit: cover; /* يحافظ على نسبة الصورة ويقص الزوائد */
+            width: 100%;
+        }
+        .card-body {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between; /* يوزع النصوص داخل الكارد */
+        }
+        .badge-cat {
+            display: inline-block;
+            background-color: #0d6efd;
+            color: #fff;
+            padding: 2px 8px;
+            border-radius: 5px;
+            font-size: 12px;
+            margin-bottom: 5px;
+        }
+    </style>
 </head>
 <body>
 
@@ -65,12 +106,10 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-    const userId = 1;
     let currentPage = 0;
     let totalPages = 1;
     let currentCategory = "";
 
-    // ===== Load Top Liked =====
     function loadTopLiked(page = 0) {
         let url = `http://localhost:8081/bookApi/v1/books/top-liked?page=${page}&size=4`;
         if (currentCategory) {
@@ -85,57 +124,54 @@
                 totalPages = data.totalPages;
                 renderPagination();
             })
-            .catch(err => {
-                console.error(err);
-                document.getElementById("booksContainer").innerHTML =
-                    `<h3 class="text-white text-center">⚠ Error loading books</h3>`;
-            });
+            .catch(err => console.log(err));
     }
 
-    // ===== Render Books =====
     function renderBooks(books) {
         const container = document.getElementById("booksContainer");
         container.innerHTML = "";
+
         if (!books || books.length === 0) {
             container.innerHTML = `<h3 class="text-white text-center">No books found</h3>`;
             return;
         }
 
         books.forEach(book => {
-            const imageSrc = book.coverImg ? `data:image/jpeg;base64,${book.coverImg}` : "/images/default-book.png";
+            const img = book.coverImg ? book.coverImg : "/images/default-book.png";
+
             const card = document.createElement("div");
             card.className = "col-md-3 mb-4";
             card.innerHTML = `
-            <div class="card h-100">
-                <img src="${imageSrc}" class="card-img-top" alt="Book Cover">
-                <div class="card-body">
-                    <h5 class="card-title">${book.title}</h5>
-                    <p class="card-text author">By ${book.author}</p>
-                    <span class="badge badge-cat">${book.category}</span>
-                    <p class="card-price mt-2 mb-2">$${book.price}</p>
-                    <button class="btn-like ${book.liked ? 'liked' : ''}"
-                        data-id="${book.id}"
-                        data-liked="${book.liked ? 'true' : 'false'}">
-                        <i class="bi bi-heart-fill"></i> <span class="like-count">${book.likesCount}</span>
-                    </button>
+                <div class="card h-100">
+                    <img src="${img}" class="card-img-top" alt="${book.title}">
+                    <div class="card-body">
+                        <div>
+                            <h5>${book.title}</h5>
+                            <p class="text-muted">By ${book.author}</p>
+                            <span class="badge-cat">${book.category}</span>
+                            <p class="mt-2 mb-2">$${book.price}</p>
+                        </div>
+                        <div class="like-wrapper">
+                            <i class="bi bi-heart-fill like-icon"></i>
+                            <span>${book.likesCount}</span>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        `;
+            `;
             container.appendChild(card);
         });
     }
 
-    // ===== Pagination =====
     function renderPagination() {
-        const pagination = document.getElementById("pagination");
-        pagination.innerHTML = "";
+        const pag = document.getElementById("pagination");
+        pag.innerHTML = "";
 
-        const createPageBtn = (text, page, disabled = false, active = false) => {
+        const btn = (text, page, disabled = false, active = false) => {
             const li = document.createElement("li");
             li.className = `page-item ${disabled ? "disabled" : ""} ${active ? "active" : ""}`;
             const a = document.createElement("a");
-            a.className = "page-link";
             a.href = "#";
+            a.className = "page-link";
             a.textContent = text;
             a.addEventListener("click", e => {
                 e.preventDefault();
@@ -145,48 +181,23 @@
             return li;
         };
 
-        pagination.appendChild(createPageBtn("<", currentPage - 1, currentPage === 0));
+        pag.appendChild(btn("<", currentPage - 1, currentPage === 0));
         for (let i = 0; i < totalPages; i++) {
-            pagination.appendChild(createPageBtn(i + 1, i, false, currentPage === i));
+            pag.appendChild(btn(i + 1, i, false, i === currentPage));
         }
-        pagination.appendChild(createPageBtn(">", currentPage + 1, currentPage === totalPages - 1));
+        pag.appendChild(btn(">", currentPage + 1, currentPage === totalPages - 1));
     }
 
-    // ===== Like Toggle =====
-    document.addEventListener("click", e => {
-        const btn = e.target.closest(".btn-like");
-        if (!btn) return;
-
-        const bookId = btn.dataset.id;
-        const likeCountSpan = btn.querySelector(".like-count");
-        let isLiked = btn.dataset.liked === "true";
-
-        let count = parseInt(likeCountSpan.textContent);
-        count = isLiked ? count - 1 : count + 1;
-        likeCountSpan.textContent = count;
-
-        isLiked = !isLiked;
-        btn.dataset.liked = isLiked.toString();
-        btn.classList.toggle("liked", isLiked);
-
-        const method = isLiked ? "POST" : "DELETE";
-        fetch(`http://localhost:8081/bookApi/v1/books/like?userId=${userId}&bookId=${bookId}`, { method })
-            .then(res => res.json())
-            .then(data => {
-                likeCountSpan.textContent = data.likesCount;
-                btn.dataset.liked = data.liked ? "true" : "false";
-                btn.classList.toggle("liked", data.liked);
-            })
-            .catch(err => console.error(err));
-    });
-
-    // ===== Filter Button =====
     document.getElementById("filterBtn").addEventListener("click", () => {
         currentCategory = document.getElementById("categoryFilter").value;
         loadTopLiked(0);
     });
 
-    // ===== Initial Load =====
+    document.getElementById("logoutBtn").addEventListener("click", () => {
+        localStorage.removeItem("user");
+        window.location.href = "/login.html";
+    });
+
     document.addEventListener("DOMContentLoaded", () => loadTopLiked());
 </script>
 
