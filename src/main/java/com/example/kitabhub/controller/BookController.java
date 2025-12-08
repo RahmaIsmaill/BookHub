@@ -42,6 +42,7 @@ public class BookController {
         return ResponseEntity.ok(bookService.getBook(id));
     }
 
+
     @Operation(summary = "Search books by title", description = "Search books using a title keyword")
     @ApiResponses({@ApiResponse(responseCode = "200", description = "Books retrieved successfully"), @ApiResponse(responseCode = "404", description = "Book not found")})
     @GetMapping("/books/search/title")
