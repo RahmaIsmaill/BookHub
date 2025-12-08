@@ -115,8 +115,33 @@ erDiagram
 ```
 ---
 
-## Frontend Demo
-- [Open the UI](http://localhost:8080/index.html)
+## 📌 API Documentation
+- [Swagger UI](http://localhost:8081/swagger-ui/index.html) *(Run the Spring Boot server locally to access)*
 
-## API Documentation
-- [Swagger UI](http://localhost:8081/swagger-ui/index.html)
+---
+
+## 🔍 API Overview
+
+### 1️⃣ Book APIs
+Endpoints for managing books, including CRUD, search, and like/unlike features.
+
+[![Book APIs](https://github.com/RahmaIsmaill/BookHub/blob/main/imgs/bookApis.png?raw=true)](https://github.com/RahmaIsmaill/BookHub/blob/main/uploads/bookApis.png?raw=true)
+
+---
+
+### 2️⃣ User APIs
+Endpoints for user registration, login, and fetching user data.
+
+[![User APIs](https://github.com/RahmaIsmaill/BookHub/blob/main/imgs/userApis.png?raw=true)](https://github.com/RahmaIsmaill/BookHub/blob/main/uploads/userApis.png?raw=true)
+
+---
+
+### 3️⃣ Schemas
+Data models and request/response schemas used in the API.
+[![Schemas](https://github.com/RahmaIsmaill/BookHub/blob/main/imgs/schemas.png?raw=true)](https://github.com/RahmaIsmaill/BookHub/blob/main/uploads/schemas.png?raw=true)
+
+---
+
+## Project Overview
+
+
