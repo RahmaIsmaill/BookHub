@@ -29,11 +29,9 @@
         }
         .card-img-top {
             height: 200px;
-            width: 100%;
             object-fit: contain;
-            background-color: #f8f9fa;
+            width: 100%;
         }
-
         .card-body {
             display: flex;
             flex-direction: column;
@@ -134,7 +132,7 @@
         container.innerHTML = "";
 
         if (!books || books.length === 0) {
-            container.innerHTML = `<h3 class="text-center" style="color: #245041">No books found</h3>`;
+            container.innerHTML = `<h3 class="text-white text-center">No books found</h3>`;
             return;
         }
 

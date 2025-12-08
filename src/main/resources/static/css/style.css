@@ -56,10 +56,9 @@ body {
     background-color: #fff;
 }
 .card-img-top {
-    height: 200px;
+    height: 200px; /* ارتفاع ثابت للصورة */
+    object-fit: contain; /* يحافظ على نسبة الصورة ويقص الزوائد */
     width: 100%;
-    object-fit: contain;
-    background-color: #f8f9fa;
 }
 .card:hover {
     transform: translateY(-5px);
@@ -127,11 +126,11 @@ body {
     cursor: pointer;
     font-size: 22px;
     transition: 0.2s;
-    color: #777;
+    color: #777; /* gray default */
 }
 
 .btn-like.liked {
-    color: #e63946 !important;
+    color: #e63946 !important; /* red when liked */
 }
 
 .btn-like:hover {
