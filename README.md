@@ -125,23 +125,85 @@ erDiagram
 ### 1️⃣ Book APIs
 Endpoints for managing books, including CRUD, search, and like/unlike features.
 
-[![Book APIs](https://github.com/RahmaIsmaill/BookHub/blob/main/imgs/bookApis.png?raw=true)](https://github.com/RahmaIsmaill/BookHub/blob/main/uploads/bookApis.png?raw=true)
+[![Book APIs](https://github.com/RahmaIsmaill/BookHub/blob/develop/imgs/BookApis.png?raw=true)](https://github.com/RahmaIsmaill/BookHub/blob/develop/imgs/BookApis.png?raw=true)
 
 ---
 
 ### 2️⃣ User APIs
 Endpoints for user registration, login, and fetching user data.
 
-[![User APIs](https://github.com/RahmaIsmaill/BookHub/blob/main/imgs/userApis.png?raw=true)](https://github.com/RahmaIsmaill/BookHub/blob/main/uploads/userApis.png?raw=true)
+[![User APIs](https://github.com/RahmaIsmaill/BookHub/blob/develop/imgs/UserApis.png?raw=true)](https://github.com/RahmaIsmaill/BookHub/blob/develop/imgs/UserApis.png?raw=true)
 
 ---
 
 ### 3️⃣ Schemas
 Data models and request/response schemas used in the API.
-[![Schemas](https://github.com/RahmaIsmaill/BookHub/blob/main/imgs/schemas.png?raw=true)](https://github.com/RahmaIsmaill/BookHub/blob/main/uploads/schemas.png?raw=true)
+[![Schemas](https://github.com/RahmaIsmaill/BookHub/blob/develop/imgs/schemas.png?raw=true)](https://github.com/RahmaIsmaill/BookHub/blob/develop/imgs/schemas.png?raw=true)
 
 ---
 
 ## Project Overview
 
 
+## 1️⃣ Landing Page
+Main landing page for the BookHub application.  
+
+[![Landing Page](https://github.com/RahmaIsmaill/BookHub/blob/develop/imgs/landing.png?raw=true)](https://github.com/RahmaIsmaill/BookHub/blob/develop/imgs/landing.png?raw=true)
+
+---
+
+## 2️⃣ Login Page
+User login page for authentication.  
+
+[![Login Page](https://github.com/RahmaIsmaill/BookHub/blob/develop/imgs/login.png?raw=true)](https://github.com/RahmaIsmaill/BookHub/blob/develop/imgs/login.png?raw=true)
+
+---
+
+## 3️⃣ Register Page
+User registration page.  
+
+[![Register Page](https://github.com/RahmaIsmaill/BookHub/blob/develop/imgs/register.png?raw=true)](https://github.com/RahmaIsmaill/BookHub/blob/develop/imgs/register.png?raw=true)
+
+---
+
+## 4️⃣ Admin Dashboard
+Overview of the admin dashboard showing statistics and management features.  
+
+[![Admin Dashboard](https://github.com/RahmaIsmaill/BookHub/blob/develop/imgs/adminDashboard.png?raw=true)](https://github.com/RahmaIsmaill/BookHub/blob/develop/imgs/adminDashboard.png?raw=true)
+
+---
+
+## 5️⃣ Add Book Form
+Form used for adding new books in the system.  
+
+[![Add Book Form](https://github.com/RahmaIsmaill/BookHub/blob/develop/imgs/addForm.png?raw=true)](https://github.com/RahmaIsmaill/BookHub/blob/develop/imgs/addForm.png?raw=true)
+
+---
+
+## 6️⃣ Edit Book Form
+Form used to edit existing book details.  
+
+[![Edit Book Form](https://github.com/RahmaIsmaill/BookHub/blob/develop/imgs/editForm.png?raw=true)](https://github.com/RahmaIsmaill/BookHub/blob/develop/imgs/editForm.png?raw=true)
+
+---
+
+## 7️⃣ All Books
+List of all books available in the system.  
+
+[![All Books](https://github.com/RahmaIsmaill/BookHub/blob/develop/imgs/allBooks.png?raw=true)](https://github.com/RahmaIsmaill/BookHub/blob/develop/imgs/allBooks.png?raw=true)
+
+---
+
+## 8️⃣ Top Liked Books
+Displays top liked books in the system.  
+
+[![Top Liked Books](https://github.com/RahmaIsmaill/BookHub/blob/develop/imgs/topLiked.png?raw=true)](https://github.com/RahmaIsmaill/BookHub/blob/develop/imgs/topLiked.png?raw=true)
+
+---
+
+## 9️⃣ Profile Page
+Displays user profile information and settings.  
+
+[![Profile Page](https://github.com/RahmaIsmaill/BookHub/blob/develop/imgs/profile.png?raw=true)](https://github.com/RahmaIsmaill/BookHub/blob/develop/imgs/profile.png?raw=true)
+
+---
