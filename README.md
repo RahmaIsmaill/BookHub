@@ -1,4 +1,4 @@
-#📚 BookHub  (Spring Boot Online Bookstore)
+## 📚 BookHub  (Spring Boot Online Bookstore)
 
 [![Java](https://img.shields.io/badge/Java-17-007396?style=flat-square&logo=openjdk&logoColor=white)](https://www.oracle.com/java/)
 [![Spring Boot](https://img.shields.io/badge/Spring_Boot-6DB33F?style=flat-square&logo=spring&logoColor=white)](https://spring.io/projects/spring-boot)
@@ -114,3 +114,4 @@ erDiagram
     BOOK ||--o{ LIKE : "has"
 ```
 ---
+
