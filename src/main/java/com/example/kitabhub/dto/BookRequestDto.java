@@ -1,6 +1,5 @@
 package com.example.kitabhub.dto;
 
-import com.example.kitabhub.enums.Category;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
 import lombok.*;

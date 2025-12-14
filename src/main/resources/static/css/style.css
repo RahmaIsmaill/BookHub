@@ -57,7 +57,7 @@ body {
 }
 .card-img-top {
     height: 200px; /* ارتفاع ثابت للصورة */
-    object-fit: cover; /* يحافظ على نسبة الصورة ويقص الزوائد */
+    object-fit: contain; /* يحافظ على نسبة الصورة ويقص الزوائد */
     width: 100%;
 }
 .card:hover {

@@ -32,8 +32,10 @@
             box-shadow: 0 12px 30px rgba(0,0,0,0.15);
         }
         .card-img-top {
-            height: 220px;
-            object-fit: cover;
+            height: 200px;
+            width: 100%;
+            object-fit: contain;
+            background-color: #f8f9fa;
         }
         .card-title {
             font-weight: 700;
@@ -311,7 +313,7 @@
         formData.append("price", document.getElementById("price").value);
         formData.append("category", document.getElementById("category").value);
         formData.append("description", document.getElementById("description").value);
-        formData.append("addedById", user.id); // مهم جداً لإضافة الكتاب
+        formData.append("addedById", user.id);
         const file = document.getElementById("coverImage").files[0];
         if(file) formData.append("coverImage", file);
 
