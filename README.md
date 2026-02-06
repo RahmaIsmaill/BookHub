@@ -1,4 +1,4 @@
-## 📚 BookHub  (Spring Boot Online Bookstore)
+## BookHub  (Spring Boot Online Bookstore)
 
 [![Java](https://img.shields.io/badge/Java-17-007396?style=flat-square&logo=openjdk&logoColor=white)](https://www.oracle.com/java/)
 [![Spring Boot](https://img.shields.io/badge/Spring_Boot-6DB33F?style=flat-square&logo=spring&logoColor=white)](https://spring.io/projects/spring-boot)
@@ -10,7 +10,7 @@
 A robust and fully documented RESTful API designed for managing a digital book library. It features a role-based access control system (USER and ADMIN) and provides advanced interactive features like liking, searching, and filtering books.
 ---
 ---
-## 🚀 Features
+## Features
 
 ### User Features
 - Register and login with email & password  
@@ -35,7 +35,7 @@ A robust and fully documented RESTful API designed for managing a digital book l
 
 ---
 
-## 📌 Technologies Used
+##  Technologies Used
 
 | Technology | Purpose |
 |------------|---------|
@@ -51,7 +51,7 @@ A robust and fully documented RESTful API designed for managing a digital book l
 
 ---
 
-## 📑 API Endpoints
+##  API Endpoints
 
 ### User APIs
 | Method | Endpoint                  | Description                       |
@@ -115,12 +115,12 @@ erDiagram
 ```
 ---
 
-## 📌 API Documentation
+##  API Documentation
 - [Swagger UI](http://localhost:8081/swagger-ui/index.html) *(Run the Spring Boot server locally to access)*
 
 ---
 
-## 🔍 API Overview
+##  API Overview
 
 ### 1️⃣ Book APIs
 Endpoints for managing books, including CRUD, search, and like/unlike features.
@@ -207,3 +207,4 @@ Displays user profile information and settings.
 [![Profile Page](https://github.com/RahmaIsmaill/BookHub/blob/develop/imgs/profile.png?raw=true)](https://github.com/RahmaIsmaill/BookHub/blob/develop/imgs/profile.png?raw=true)
 
 ---
+
